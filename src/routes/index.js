@@ -5,16 +5,20 @@ router.get('/', async (ctx, next) => {
         title: 'Hello Koa 2!',
         name: 'qing',
         isShow: false,
-        blogList: [{
-            id: 1,
-            content: 'aaa'
-        }, {
-            id: 2,
-            content: 'bbb'
-        }, {
-            id: 3,
-            content: 'ccc'
-        },]
+        blogList: [
+            {
+                id: 1,
+                content: 'aaa'
+            },
+            {
+                id: 2,
+                content: 'bbb'
+            },
+            {
+                id: 3,
+                content: 'ccc'
+            }
+        ]
     })
 })
 
@@ -24,9 +28,9 @@ router.get('/json', async (ctx, next) => {
     //     session.viewNum = 0
     // }
     // session.viewNum++
-
+    throw Error()
     ctx.body = {
-        title: 'koa2 json',
+        title: 'koa2 json'
         // viewNum: session.viewNum
     }
 })

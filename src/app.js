@@ -8,38 +8,53 @@ const logger = require('koa-logger')
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 const REDIS_CONF = require('./conf/db')
+const { isProd } = require('./utils/env')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
+const errorViewRouter = require('./routes/veiw/error')
 
 // error handler
-onerror(app)
+let onErrorConf = {}
+//只有线上才用到跳到错误页
+if (isProd) {
+    onErrorConf = {
+        redirect: '/error'
+    }
+}
+onerror(app, onErrorConf)
 
 // middlewares
-app.use(bodyparser({
-    enableTypes: ['json', 'form', 'text']
-}))
+app.use(
+    bodyparser({
+        enableTypes: ['json', 'form', 'text']
+    })
+)
 app.use(json())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 
-app.use(views(__dirname + '/views', {
-    extension: 'ejs'
-}))
+app.use(
+    views(__dirname + '/views', {
+        extension: 'ejs'
+    })
+)
 
 app.keys = ['YUavd_3213$']
-app.use(session({
-    key: 'weibo.sid',       //默认koa.sid
-    prefix: 'weibo:sess:',  //默认 koa:sess:
-    cookie: {
-        path: '/',
-        httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000
-    },
-    store: redisStore({
-        all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
+app.use(
+    session({
+        key: 'weibo.sid', //默认koa.sid
+        prefix: 'weibo:sess:', //默认 koa:sess:
+        cookie: {
+            path: '/',
+            httpOnly: true,
+            maxAge: 24 * 60 * 60 * 1000
+        },
+        store: redisStore({
+            all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
+        })
     })
-}))
+)
 
 // logger
 app.use(async (ctx, next) => {
@@ -52,6 +67,7 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
