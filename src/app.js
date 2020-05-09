@@ -11,7 +11,7 @@ const REDIS_CONF = require('./conf/db')
 const { isProd } = require('./utils/env')
 
 const index = require('./routes/index')
-const users = require('./routes/users')
+const user = require('./routes/veiw/user')
 const errorViewRouter = require('./routes/veiw/error')
 
 // error handler
@@ -66,7 +66,7 @@ app.use(async (ctx, next) => {
 
 // routes
 app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
+app.use(user.routes(), user.allowedMethods())
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
 // error-handling
