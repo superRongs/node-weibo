@@ -9,6 +9,7 @@ const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 const REDIS_CONF = require('./conf/db')
 const { isProd } = require('./utils/env')
+const { SESSION_SECRET_KEY } = require('./conf/secretKeys')
 
 const index = require('./routes/index')
 const userApiRouter = require('./routes/api/user')
@@ -41,7 +42,7 @@ app.use(
     })
 )
 
-app.keys = ['YUavd_3213$']
+app.keys = [SESSION_SECRET_KEY]
 app.use(
     session({
         key: 'weibo.sid', //默认koa.sid

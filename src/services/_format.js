@@ -18,7 +18,7 @@ function _formatUserPictuer(obj) {
  * 格式化用户
  * @param {Array|Object} list 用户对象
  */
-function fotmatUser(list) {
+function formatUser(list) {
     if (list == null) {
         return list
     }
@@ -33,5 +33,5 @@ function fotmatUser(list) {
 }
 
 module.exports = {
-    fotmatUser
+    formatUser
 }
