@@ -2,13 +2,19 @@
  * @description user controller
  * @author rong
  */
-const { getUserInfo, createUser, deleteUser } = require('../services/user')
+const {
+    getUserInfo,
+    createUser,
+    deleteUser,
+    updateUser
+} = require('../services/user')
 const {
     registerUserNameNotExistInfo,
     registerUserNameExistInfo,
     registerFailInfo,
     loginFailInfo,
-    deleteUserFailInfo
+    deleteUserFailInfo,
+    changeInfoFailInfo
 } = require('../model/ErrorInfo')
 const doCrypto = require('../utils/cryp')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
@@ -85,9 +91,38 @@ async function deleteCurUser(userName) {
     return new ErrorModel(deleteUserFailInfo)
 }
 
+async function changeInfo(ctx, { nickName, picture, city }) {
+    const { userName } = ctx.session.userInfo
+    if (!nickName) {
+        nickName = nickName
+    }
+
+    const result = await updateUser(
+        {
+            newNickName: nickName,
+            newPicture: picture,
+            newCity: city
+        },
+        {
+            userName
+        }
+    )
+
+    if (result) {
+        Object.assign(ctx.session.userInfo, {
+            nickName,
+            picture,
+            city
+        })
+        return new SuccessModel()
+    }
+    return new ErrorModel(changeInfoFailInfo)
+}
+
 module.exports = {
     isExist,
     register,
     login,
-    deleteCurUser
+    deleteCurUser,
+    changeInfo
 }
