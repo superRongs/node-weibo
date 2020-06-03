@@ -64,6 +64,11 @@ async function deleteUser(userName) {
     return result > 0
 }
 
+/**
+ *
+ * @param {Object} 修改新的参数  新的密码   新的昵称   新的图片   新的城市
+ * @param {Object} 查询条件    userName  password
+ */
 async function updateUser(
     { newPassword, newNickName, newPicture, newCity },
     { userName, password }
@@ -71,7 +76,7 @@ async function updateUser(
     //拼接修改内容
     let upDateData = {}
     if (newPassword) {
-        upDateData.password = password
+        upDateData.password = newPassword
     }
     if (newNickName) {
         upDateData.nickName = newNickName
