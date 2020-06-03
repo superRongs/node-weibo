@@ -60,9 +60,41 @@ test('用户登录，应该成功', async () => {
     Cookie = res.headers['set-cookie'].join(';')
 })
 
+//修改基础信息
+test('修改基础信息，应该成功', async () => {
+    const res = await server
+        .patch('/api/user/changeInfo')
+        .send({
+            nickName: '修改昵称',
+            city: '修改城市',
+            picture: '/test.png'
+        })
+        .set('cookie', Cookie)
+    expect(res.body.errno).toBe(0)
+})
+
+//修改密码
+test('修改密码应该成功', async () => {
+    const res = await server
+        .patch('/api/user/changePassword')
+        .send({
+            password,
+            newPassword: `p_${Date.now()}`
+        })
+        .set('cookie', Cookie)
+
+    expect(res.body.errno).toBe(0)
+})
+
 //删除
 test('删除用户，应该成功', async () => {
     const res = await server.post('/api/user/delete').set('cookie', Cookie)
+    expect(res.body.errno).toBe(0)
+})
+
+//退出登录   (为什么退出登录在删除后面  因为退出登录后   session会被删除掉  所以删除接口就会报错)
+test('退出登录，应该成功', async () => {
+    const res = await server.post('/api/user/logout').set('cookie', Cookie)
     expect(res.body.errno).toBe(0)
 })
 
