@@ -20,6 +20,7 @@ const { logincheck } = require('../../middlewares/loginchecks')
 
 router.prefix('/api/user')
 
+// 注册
 router.post('/register', genValidator(userValidate), async (ctx, next) => {
     const { userName, password, gender } = ctx.request.body
     ctx.body = await register({ userName, password, gender })
