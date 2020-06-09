@@ -11,7 +11,7 @@ async function createBlog({ userId, content, image }) {
         content,
         image
     })
-    return result.dataValuea
+    return result.dataValues
 }
 
 module.exports = {
