@@ -4,5 +4,6 @@
  */
 
 module.exports = {
-    DEFAULT_PICEUER: 'https://dwz.cn/rnTnftZs'
+    DEFAULT_PICEUER: 'https://dwz.cn/rnTnftZs',
+    PAGE_SIZE: 5
 }
