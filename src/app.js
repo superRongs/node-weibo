@@ -13,6 +13,7 @@ const { isProd } = require('./utils/env')
 const { SESSION_SECRET_KEY } = require('./conf/secretKeys')
 const koaStatic = require('koa-static')
 
+const profileApiRouter = require('./routes/api/blog-profile')
 const homeApiRouter = require('./routes/api/blog-home')
 const blogViewRouter = require('./routes/veiw/blog')
 const utilsApiRouter = require('./routes/api/utils')
@@ -72,6 +73,7 @@ app.use(async (ctx, next) => {
 })
 
 // routes
+app.use(profileApiRouter.routes(), profileApiRouter.allowedMethods())
 app.use(homeApiRouter.routes(), homeApiRouter.allowedMethods())
 app.use(blogViewRouter.routes(), blogViewRouter.allowedMethods())
 app.use(utilsApiRouter.routes(), utilsApiRouter.allowedMethods())
