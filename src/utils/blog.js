@@ -13,6 +13,11 @@ const BLOG_LIST_TPL = fs
     )
     .toString()
 
+/**
+ *数据模板转换
+ * @param {array} blogList 微博列表数组
+ * @param {boolean} canReply 是否回复
+ */
 function getBlogListStr(blogList = [], canReply = false) {
     return ejs.render(BLOG_LIST_TPL, {
         blogList,
